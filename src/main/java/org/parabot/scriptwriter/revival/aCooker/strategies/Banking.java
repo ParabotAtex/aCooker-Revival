@@ -28,9 +28,14 @@ public class Banking implements Strategy {
             if(Inventory.isEmpty()) {
                 Menu.clickButton(5387);
                 Time.sleep(1000);
-                Bank.withdraw(Constants.RAW_KARAMBWAN_ID, 27, 1000);
-                Time.sleep(3000);
-                if(Inventory.getCount(Constants.RAW_KARAMBWAN_ID) == 27) {
+                Bank.withdraw(Constants.RAW_KARAMBWAN_ID, Constants.FISH_PER_INVENTORY, 1000);
+                Time.sleep(new SleepCondition() {
+                    @Override
+                    public boolean isValid() {
+                        return Inventory.getCount(Constants.RAW_KARAMBWAN_ID) == Constants.FISH_PER_INVENTORY;
+                    }
+                }, 3000);
+                if(Inventory.getCount(Constants.RAW_KARAMBWAN_ID) == Constants.FISH_PER_INVENTORY) {
                     Bank.close();
                 }
             }
