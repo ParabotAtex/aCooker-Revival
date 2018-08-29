@@ -3,6 +3,7 @@ package org.parabot.scriptwriter.revival.aCooker.strategies;
 import org.parabot.environment.api.utils.Time;
 import org.parabot.environment.scripts.framework.SleepCondition;
 import org.parabot.environment.scripts.framework.Strategy;
+import org.parabot.scriptwriter.revival.aCooker.core.Core;
 import org.parabot.scriptwriter.revival.aCooker.revival_lib.Constants;
 import org.rev317.min.api.methods.*;
 import org.rev317.min.api.wrappers.SceneObject;
@@ -16,7 +17,7 @@ public class Cooking implements Strategy {
     @Override
     public boolean activate() {
         return Players.getMyPlayer().getAnimation() != Constants.COOKING_ANIMATION_ID
-                && Inventory.getCount(Constants.RAW_KARAMBWAN_ID) > 0;
+                && Inventory.getCount(Core.getSettings().getRawFoodId()) > 0;
     }
 
     @Override
@@ -25,7 +26,7 @@ public class Cooking implements Strategy {
         final Tile cookingSpot = new Tile(fire.getLocation().getX() - 1,fire.getLocation().getY());
         if(Players.getMyPlayer().getLocation().equals(cookingSpot)) {
             if(Interfaces.getBackDialogId() != Constants.COOK_KARAMBWAN_DIALOG_ID) {
-                Inventory.getItem(Constants.RAW_KARAMBWAN_ID).interact(Items.Option.USE);
+                Inventory.getItem(Core.getSettings().getRawFoodId()).interact(Items.Option.USE);
                 Time.sleep(500);
                 Menu.sendAction(62, fire.getHash(), fire.getLocalRegionX(), fire.getLocalRegionY());
                 Time.sleep(new SleepCondition() {
