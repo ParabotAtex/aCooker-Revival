@@ -22,6 +22,7 @@ public class Core extends Script {
     ArrayList<Strategy> strategies = new ArrayList<>();
     private static Settings settings;
     private static Script core;
+        
     @Override
     public boolean onExecute() {
         strategies.add(new Banking());
@@ -30,16 +31,19 @@ public class Core extends Script {
         core = this;
 
         GUI gui = new GUI();
-        while(gui.isVisible()) {
+        while(gui.isVisible()) { //Freeze until GUI closes, meaning user has entered settings
             Time.sleep(500);
         }
+            
         if(gui.getSettings() == null) {
             Logger.addMessage("Invalid input, stopping script");
-            stopScript();
+            return false;
         }
 
         settings = gui.getSettings();
-
+            
+        if(settings == null) return false;
+            
         return true;
     }
 
